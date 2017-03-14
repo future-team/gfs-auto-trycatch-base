@@ -2,6 +2,10 @@
   "name": "gfs-auto-trycatch-base",
   "version": "1.0.0",
   "description": "auto add try-catch wrap for function base util",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/future-team/gfs-auto-trycatch-base.git"
+  },
   "main": "index.js",
   "scripts": {
     "test": "npm test"
