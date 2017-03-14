@@ -1,0 +1,11 @@
+{
+  "name": "gfs-auto-trycatch-base",
+  "version": "1.0.0",
+  "description": "auto add try-catch wrap for function base util",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "genffy",
+  "license": "ISC"
+}
