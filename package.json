@@ -1,5 +1,5 @@
 {
-  "name": "gfs-auto-trycatch-base",
+  "name": "gfs-auto-trycatch",
   "version": "1.0.0",
   "description": "auto add try-catch wrap for function base util",
   "repository": {
@@ -11,5 +11,8 @@
     "test": "npm test"
   },
   "author": "genffy",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "esprima": "^3.1.3"
+  }
 }
