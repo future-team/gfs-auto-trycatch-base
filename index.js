@@ -1,92 +1,55 @@
 'use strict';
-var path = require('path');
+var assign = require('object-assign');
 var babel = require('babel-core');
-var babelTemplate = require('babel-template');
-// var babelGenerator = require('babel-generator');
-
-var babelTypes = babel.types;
-var babelGenerator = require('babel-core/lib/generation')
-//遍历整个语法解析树
-function traversal(node, func) {
-    func(node);
-    for (var key in node) {
-        if (node.hasOwnProperty(key)) {
-            var child = node[key];
-            if (typeof child === 'object' && child !== null) {
-                if (Array.isArray(child)) {
-                    child.forEach(function (node) {
-                        traversal(node, func);
-                    });
-                } else {
-                    traversal(child, func);
-                }
-            }
-        }
-    }
-}
-
-const wrapFunction = babelTemplate(`{
-  try {
-    BODY
-  } catch(ERROR_VARIABLE_NAME) {
-    REPORT_ERROR(ERROR_VARIABLE_NAME, FILENAME, FUNCTION_NAME, LINE)
-    throw ERROR_VARIABLE_NAME
-  }
-}`)
-
+var pkg = require('./package.json');
+var tryCatchVisitor = require('./src/visitor');
 /**
  * 解析 AST
  * 遍历添加try catch
  * 返回内容
  * @param content String source file
- * @param file Vinyl file object
  * @param conf Object config
+ *  sourceRoot: process.cwd(),
+    filename: file.path,
+    filenameRelative: path.relative(process.cwd(), file.path),
+    sourceMap: Boolean(file.sourceMap)
+    errorHandleFuncName: '' // how to deal error
  * @return string after add try catch format
  */
 function autoTryCatch(content, conf) {
-    var fileName = conf.filename
-    var filePath = conf.path
-    var formatContent = content
-
-    // parse
+    var options = assign({}, {
+        __version: pkg.version
+    }, conf);
+    var formatContent = content;
+    // parse code->AST
+    // traverse & add try-catch  AST-> new AST
+    // generate new AST->code
     try {
-        /**
-         * APIs: 'register', 'polyfill', 'transformFile', 'transformFileSync', 'parse', 'util', 'acorn', 'transform', 'pipeline', 'canCompile', 'File', 'options', 'Plugin', 'Transformer', 'Pipeline', 'traverse', 'buildExternalHelpers', 'version', 'types'
-         */
-        var parse = babel.parse(content, {
-            "stage": 0,
-            "loose": "all"
-        });
-        console.log('Object.keys(parse)', Object.keys(parse))
-    } catch (error) {
-        console.log('babel.parse', filePath, error);
-    }
-    // traverse
-    try {
-        babel.traverse(parse, {
-            noScope: true,
-
-            enter: function(path){
-                console.log('enter', path)
+        var result = babel.transform(content, {
+            parserOpts: {
+                sourceType: 'module',
+                plugins: [
+                    'asyncGenerators',
+                    'classConstructorCall',
+                    'classProperties',
+                    'decorators',
+                    'doExpressions',
+                    'exportExtensions',
+                    'flow',
+                    'functionSent',
+                    'functionBind',
+                    'jsx',
+                    'objectRestSpread',
+                    'dynamicImport',
+                ],
             },
-            exit: function(path){
-                console.log('exit', path)
-            }
+            babelrc: false,
+            plugins: [tryCatchVisitor(babel, options)],
+            sourceMaps: true,
         });
-    }catch(error){
-        console.log('babel.traverse', error)
-    }
-    // generate
-    try {
-        // 如何生成代码？
-        var output = babelGenerator(parse, {}, content)
-        // var output = babel.transform(content, {
-        //     "stage": 0,
-        //     "loose": "all"
-        // })
-        formatContent = output.code
+        formatContent = result.code;
     } catch (error) {
-        console.log('babelGenerator', fileName, error)
+        console.error('generate error', filename, error);
     }
     return formatContent;
 }
