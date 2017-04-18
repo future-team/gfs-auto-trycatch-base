@@ -1,20 +1,4 @@
-# gfs-auto-trycatch-base
-Auto add try-catch wrap for function base util.
-
-## Options
-
-- `sourceRoot`: the code source root path
-- `filename`: in fact this option is `file path`
-- `filenameRelative`: file name
-- `sourceMap`: code source map file content, default is `false`
-- `errorHandleFuncName` : error handler function name, default is `GFS_TRY_CATCH_ERROR_HANDLE`, `NOTE`: this function name must be defined global.
-## Usage
-```bash
-$ npm install gfs-auto-trycatch --save-dev
-```
-
-```javascript
-const autoTryCatch = require('gfs-auto-trycatch');
+const autoTryCatch = require('../index.js');
 const codeContent = `
 class Demo {
   consturctor(){
@@ -47,4 +31,3 @@ console.log(newCtn);
     }
   }
 }*/
-```

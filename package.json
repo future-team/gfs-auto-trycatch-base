@@ -10,14 +10,15 @@
   "scripts": {
     "test": "npm test"
   },
-  "author": "genffy",
+   "author": {
+    "name": "Genffy Lee",
+    "email": "lee.genffy@gmail.com"
+  },
   "license": "Apache-2.0",
   "dependencies": {
     "babel-core": "^6.24.1",
     "babel-helper-function-name": "^6.24.1",
     "babel-types": "^6.24.1",
-    "babylon": "^6.16.1",
-    "lodash": "^4.17.4",
     "object-assign": "^3.0.0"
   }
 }

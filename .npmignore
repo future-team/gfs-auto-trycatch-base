@@ -39,5 +39,4 @@ thumbs.db
 .CVS
 .idea
 node_modules/
-src/
 test/
