@@ -11,7 +11,6 @@ var wrapFunction = template(`{
     BODY
   } catch(ERROR_VARIABLE_NAME) {
     window.REPORT_ERROR && window.REPORT_ERROR(ERROR_VARIABLE_NAME, FILENAME, FUNCTION_NAME, LINE, COLUMN)
-    throw ERROR_VARIABLE_NAME
   }
 }`);
 var VISITED = Symbol();

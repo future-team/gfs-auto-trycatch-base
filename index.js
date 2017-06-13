@@ -53,4 +53,23 @@ function autoTryCatch(content, conf) {
     }
     return formatContent;
 }
+
+// 默认的catch error 处理方法，以及上报处理
+window.GFS_TRY_CATCH_ERROR_HANDLE = function(ERROR_VARIABLE_NAME, FILENAME, FUNCTION_NAME, LINE, COLUMN){
+    try{
+        window.pmlogger.error({
+            msg: {
+                ERROR_VARIABLE_NAME: ERROR_VARIABLE_NAME,
+                filename: FILENAME,
+                functionName: FUNCTION_NAME
+            },
+            target: window.location.href,
+            rowNum: LINE,
+            colNum: COLUMN,
+            type:2
+        })
+    }catch(e){
+        console.error('[window.pmlogger.error] not config, Please config global logger object with "error" function handler.')
+    }
+}
 module.exports = autoTryCatch;
