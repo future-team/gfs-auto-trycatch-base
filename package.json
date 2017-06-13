@@ -1,7 +1,7 @@
 {
   "name": "gfs-auto-trycatch",
   "version": "1.0.0",
-  "description": "auto add try-catch wrap for function base util",
+  "description": "the base util to auto add try-catch wrap for Function or ClassMethod",
   "repository": {
     "type": "git",
     "url": "https://github.com/future-team/gfs-auto-trycatch-base.git"
@@ -10,9 +10,15 @@
   "scripts": {
     "test": "npm test"
   },
-  "author": "genffy",
-  "license": "ISC",
+   "author": {
+    "name": "Genffy Lee",
+    "email": "lee.genffy@gmail.com"
+  },
+  "license": "Apache-2.0",
   "dependencies": {
-    "esprima": "^3.1.3"
+    "babel-core": "^6.24.1",
+    "babel-helper-function-name": "^6.24.1",
+    "babel-types": "^6.24.1",
+    "object-assign": "^3.0.0"
   }
 }
