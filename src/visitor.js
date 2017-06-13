@@ -11,6 +11,17 @@ var wrapFunction = template(`{
     BODY
   } catch(ERROR_VARIABLE_NAME) {
     window.REPORT_ERROR && window.REPORT_ERROR(ERROR_VARIABLE_NAME, FILENAME, FUNCTION_NAME, LINE, COLUMN)
+    !window.REPORT_ERROR && window.pmlogger && window.pmlogger.error && typeof window.pmlogger.error == 'function' && window.pmlogger.error({
+        msg: JSON.stringify({
+            error_variable_name: ERROR_VARIABLE_NAME,
+            filename: FILENAME,
+            function_name: FUNCTION_NAME
+        }),
+        target: window.location.href,
+        rowNum: LINE,
+        colNum: COLUMN,
+        type:2
+    })
   }
 }`);
 var VISITED = Symbol();
@@ -20,7 +31,6 @@ module.exports = function visitor(babel, options){
   return {
     name: "trycatch-transform", // not required
     visitor: {
-      
       'Function|ClassMethod': function(path){
         // forbid duplicate deal
         if (path.node[VISITED]) return;

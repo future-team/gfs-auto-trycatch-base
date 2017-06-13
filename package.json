@@ -1,6 +1,6 @@
 {
   "name": "gfs-auto-trycatch",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "the base util to auto add try-catch wrap for Function or ClassMethod",
   "repository": {
     "type": "git",
